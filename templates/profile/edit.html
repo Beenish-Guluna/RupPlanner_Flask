@@ -1,0 +1,143 @@
+{% extends "layouts/app.html" %}
+{% set header %}<h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>{% endset %}
+
+{% block content %}
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+        {# Update Profile Information #}
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="max-w-xl">
+                <section>
+                    <header>
+                        <h2 class="text-lg font-medium text-gray-900">Profile Information</h2>
+                        <p class="mt-1 text-sm text-gray-600">Update your account's profile information and email address.</p>
+                    </header>
+
+                    {% if session_status == 'profile-updated' %}
+                    <p class="text-sm text-gray-600 mt-2">Saved.</p>
+                    {% endif %}
+
+                    <form method="POST" action="{{ url_for('profile_update') }}" class="mt-6 space-y-6">
+                        <input type="hidden" name="_method" value="PATCH">
+
+                        <div>
+                            <label for="name" class="block font-medium text-sm text-gray-700">Name</label>
+                            <input id="name" name="name" type="text"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                   value="{{ user.name }}" required autofocus autocomplete="name" />
+                            {% if errors is defined and errors.get('name') %}
+                            <ul class="text-sm text-red-600 mt-2"><li>{{ errors['name'] }}</li></ul>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="email" class="block font-medium text-sm text-gray-700">Email</label>
+                            <input id="email" name="email" type="email"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                   value="{{ user.email }}" required autocomplete="username" />
+                            {% if errors is defined and errors.get('email') %}
+                            <ul class="text-sm text-red-600 mt-2"><li>{{ errors['email'] }}</li></ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        {# Update Password #}
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="max-w-xl">
+                <section>
+                    <header>
+                        <h2 class="text-lg font-medium text-gray-900">Update Password</h2>
+                        <p class="mt-1 text-sm text-gray-600">Ensure your account is using a long, random password to stay secure.</p>
+                    </header>
+
+                    {% if session_status == 'password-updated' %}
+                    <p class="text-sm text-gray-600 mt-2">Saved.</p>
+                    {% endif %}
+
+                    <form method="POST" action="{{ url_for('password_update') }}" class="mt-6 space-y-6">
+
+                        <div>
+                            <label for="current_password" class="block font-medium text-sm text-gray-700">Current Password</label>
+                            <input id="current_password" name="current_password" type="password"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                   autocomplete="current-password" />
+                            {% if password_errors is defined and password_errors.get('current_password') %}
+                            <ul class="text-sm text-red-600 mt-2"><li>{{ password_errors['current_password'] }}</li></ul>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="new_password" class="block font-medium text-sm text-gray-700">New Password</label>
+                            <input id="new_password" name="password" type="password"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                   autocomplete="new-password" />
+                            {% if password_errors is defined and password_errors.get('password') %}
+                            <ul class="text-sm text-red-600 mt-2"><li>{{ password_errors['password'] }}</li></ul>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="password_confirmation" class="block font-medium text-sm text-gray-700">Confirm Password</label>
+                            <input id="password_confirmation" name="password_confirmation" type="password"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                   autocomplete="new-password" />
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        {# Delete Account #}
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="max-w-xl">
+                <section class="space-y-6">
+                    <header>
+                        <h2 class="text-lg font-medium text-gray-900">Delete Account</h2>
+                        <p class="mt-1 text-sm text-gray-600">
+                            Once your account is deleted, all of its resources and data will be permanently deleted.
+                        </p>
+                    </header>
+
+                    {% with messages = get_flashed_messages(category_filter=['error']) %}
+                    {% if messages %}
+                    <ul class="text-sm text-red-600">{% for m in messages %}<li>{{ m }}</li>{% endfor %}</ul>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('profile_update') }}" class="space-y-4">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <div>
+                            <label for="delete_password" class="block font-medium text-sm text-gray-700">Confirm Password</label>
+                            <input id="delete_password" name="password" type="password"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-3/4"
+                                   placeholder="Password" />
+                        </div>
+                        <button type="submit"
+                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                onclick="return confirm('Are you sure? This cannot be undone.')">
+                            Delete Account
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

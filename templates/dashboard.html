@@ -1,0 +1,37 @@
+{% extends "layouts/app.html" %}
+{% set header %}<h2 class="font-semibold text-xl text-white leading-tight">RupPlanner Dashboard</h2>{% endset %}
+
+{% block content %}
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="bg-green-600 text-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-bold">Total Income</h3>
+                <p class="text-3xl mt-2">PKR {{ total_income | number_format }}</p>
+            </div>
+
+            <div class="bg-red-600 text-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-bold">Total Expenses</h3>
+                <p class="text-3xl mt-2">PKR {{ total_expenses | number_format }}</p>
+            </div>
+
+            <div class="bg-blue-600 text-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-bold">Remaining Balance</h3>
+                <p class="text-3xl mt-2">PKR {{ remaining_balance | number_format }}</p>
+            </div>
+
+            <div class="bg-yellow-500 text-black p-6 rounded-lg shadow">
+                <h3 class="text-lg font-bold">Active Goals</h3>
+                <p class="text-3xl mt-2">{{ active_goals }}</p>
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 mt-8">
+            <h3 class="text-xl font-bold mb-4">Welcome to RupPlanner</h3>
+            <p>Track your income, expenses, budgets and savings goals in one place.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

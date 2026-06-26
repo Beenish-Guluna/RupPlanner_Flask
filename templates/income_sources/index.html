@@ -1,0 +1,40 @@
+{% extends "layouts/app.html" %}
+{% block content %}
+<div class="p-6">
+
+    <h2 class="text-2xl font-bold mb-4">Income Sources</h2>
+
+    <a href="{{ url_for('income_sources_create') }}"
+       class="bg-yellow-500 text-black px-4 py-2 rounded">
+        Add Source
+    </a>
+
+    <table class="table-auto border mt-4 w-full">
+        <tr>
+            <th class="border p-2">ID</th>
+            <th class="border p-2">Source Name</th>
+            <th class="border p-2">Amount</th>
+            <th class="border p-2">Actions</th>
+        </tr>
+
+        {% for source in sources %}
+        <tr>
+            <td class="border p-2">{{ source.source_id }}</td>
+            <td class="border p-2">{{ source.source_name }}</td>
+            <td class="border p-2">PKR {{ source.amount | number_format }}</td>
+            <td class="border p-2">
+                <a href="{{ url_for('income_sources_edit', id=source.source_id) }}"
+                   class="text-blue-600">Edit</a>
+
+                <form action="{{ url_for('income_sources_update_or_delete', id=source.source_id) }}"
+                      method="POST" style="display:inline;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="text-red-600">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
