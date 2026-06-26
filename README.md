@@ -33,9 +33,9 @@ Edit `.env` and set your MySQL credentials:
 ```
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=rupplanner_db
+DB_DATABASE=my_db
 DB_USERNAME=root
-DB_PASSWORD=your_password
+DB_PASSWORD=my_password
 SECRET_KEY=some-random-secret
 ```
 
